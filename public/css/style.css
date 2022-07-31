@@ -1,0 +1,72 @@
+*{
+  box-sizing: content-box;
+}
+
+.section {
+  padding: 20px;
+  border-radius: 8px;
+  display: inline-block;
+  border: 2px solid blue;
+  background-color: lightcyan;
+}
+
+.section__image {
+  border-radius: 8px;
+}
+
+.section__title {
+  margin-top: 0;
+  text-align: center;
+}
+
+form {
+  margin-top: 15px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group__label {
+  display: block;
+  margin-bottom: 3px;
+}
+
+.form-group__input {
+  padding: 7px;
+}
+
+.form-button {
+  color: white;
+  padding: 7px;
+  background-color: blue;
+}
+
+.form-button:hover {
+  cursor: pointer;
+}
+
+.img{
+  height:400px;
+  width:450px;    
+  box-shadow: 0 8px 26px rgba(0,0,0,0.4), 0 28px 30px rgba(0,0,0,0.3);
+  
+}
+
+input:invalid:required {
+  border: 2px solid red;
+}
+
+input:valid {
+  border: 2px solid green;
+}
+
+.select{
+  font-style: italic;
+}
+
+.h1{
+font-size: large;
+
+}
+

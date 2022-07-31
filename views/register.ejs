@@ -1,0 +1,17 @@
+<%- include('particles/header.ejs') %>
+<%- include('particles/navigation.ejs') %>
+<form action="/register" method="post" onsubmit="return sendform();">
+    <div class="form-group">
+        <label class="form-group__label" for="name">Имя пользователя</label>
+        <input class="form-group__input" type="text" id="name" name="name" placeholder="Имя пользователя" minlength="2" maxlength="15" required >
+    </div>
+
+    <div class="form-group">
+        <label class="form-group__label" for="password">Пароль</label>
+        <input class="form-group__input" type="password" id="password" name="password" placeholder="Пароль"  minlength="2" maxlength="30" required>
+    </div>
+
+    <input class="form-button" type="submit" value="Зарегистрироваться">
+</form>
+<p>Совершая регистрацию, Вы принимаете наше <a href="/usrAgr">пользовательское соглашение.</a></p>
+<%- include('particles/footer.ejs') %>

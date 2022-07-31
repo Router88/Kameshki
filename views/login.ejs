@@ -1,0 +1,16 @@
+<%- include('particles/header.ejs') %>
+<%- include('particles/navigation.ejs') %>
+<form action="/login" method="post">
+    <div class="form-group">
+        <label class="form-group__label" for="name">Имя пользователя</label>
+        <input class="form-group__input" type="text" id="name" name="name" placeholder="Имя пользователя"  minlength="2" maxlength="15" required>
+    </div>
+
+    <div class="form-group">
+        <label class="form-group__label" for="password">Пароль</label>
+        <input class="form-group__input" type="password" id="password" name="password" placeholder="Пароль" minlength="2" maxlength="30" required>
+    </div>
+
+    <input class="form-button" type="submit" value="Войти">
+</form>
+<%- include('particles/footer.ejs') %>

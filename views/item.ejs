@@ -1,0 +1,35 @@
+<%- include('particles/header.ejs') %>
+<script src="/js/uploadImg.js" defer></script>
+<%- include('particles/navigation.ejs') %>
+
+<div class="section">
+    <h2 class="section__title">
+        <%= item.title %>
+    </h2>
+    <img class="section__image" src="/img/<%= item.image %>">
+</div>
+
+<form action="/update" method="post">
+    <div class="form-group">
+        <label class="form-group__label" for="title">title</label>
+        <input value="<%= item.title %>" class="form-group__input" type="text" id="title" name="title"
+            placeholder="title">
+    </div>
+
+    <div class="form-group">
+        <label class="form-group__label" for="description">description</label>
+        <input class="form-group__input" value="<%= item.description %>" type="text" id="description" name="title" placeholder="description">
+        
+        
+            <label class="form-group__label" for="image">image</label>
+    <input id="file-uploader" type="file" name="photo" accept="image/*" >
+    </div>
+    <input type="hidden" value="<%= item.id %>" name="id">
+    <input class="form-button" type="submit" value="Обновить">
+</form>
+<form action="/delete" method="post">
+    <input type="hidden" value="<%= item.id %>" name="id">
+    <input class="form-button" type="submit" value="Удалить">
+    </form>
+
+<%- include('particles/footer.ejs') %>

@@ -1,0 +1,12 @@
+<ul>
+    <li><a href="/">Главная</a></li>
+    <% if (auth) { %>
+        <li><a href="/add">Добавить</a></li>
+        <li><a href="/logout">Выйти из аккаунта</a></li>
+        
+    <% } else { %>
+        <li><a href="/log">Авторизация</a></li>
+        <li><a href="/reg">Регистрация</a></li>
+    <% } %>
+    
+</ul>
