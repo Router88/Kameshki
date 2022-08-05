@@ -1,15 +1,18 @@
 const express = require('express')
 const mysql = require('mysql');
 const path = require('path');
-const fileUpload = require('express-fileupload');
+const multer = require("multer");
 const bcrypt = require("bcrypt");
 const session = require('express-session');
-const app = express()
+const fs = require("fs");
+const app = express();
+
+//куда сохраняется картинка 
+const upload = multer({ dest: "./public/img/" });
 
 
 
-
-app.use(fileUpload({}));
+app.use(express.static('public'))
 //
 const salt = 10;
 
@@ -17,7 +20,7 @@ const connection = mysql.createConnection({
   host: "127.0.0.1",
   database: "rocks",
   user: "root",
-  password: "admin" //secret   //admin
+  password: "secret" //secret   //admin
 });
 
 connection.connect(function (err) { if (err) throw err; });
@@ -122,39 +125,43 @@ app.post('/update', (req, res) => {
       res.redirect('/')
   });
 });
-//------------------------------------------------------------------------------------------------------
+///-------------------
+app.post("/upload", upload.single("image"), (req, res) => {
+  const tempPath = req.file.path;
+  connection.query(
+    "INSERT INTO items (title, description, image) VALUES (?, ?)",
+    [[req.body.title], [req.body.image], [req.file.originalname]], (err, data, fields) => {
+      if (err) throw err;
+  });
+  const targetPath = path.join(
+    __dirname,
+    "./public/img/" + req.file.originalname
+  );
+
+  fs.rename(tempPath, targetPath, (err) => {
+    if (err) console.log(err);
+    
+    res.redirect('/');
+  });
+});
+
+
 app.post('/store2', (req, res) => {
-  connection.query(  
-    "INSERT INTO items (title, description, image) VALUES (?, ?, ?)",
-    [[req.body.title],[req.body.description], [req.files.photo.name]], (err, data, fields) => {
-      if (err){throw err;}else{
-      req.files.photo.mv('public/img/'+req.files.photo.name);
+  connection.query(
+    "INSERT INTO items (title, description, image) VALUES (?, ?)",
+    [[req.body.title], [req.body.image], [req.file.originalname]], (err, data, fields) => {
+      if (err) throw err;
+
       res.redirect('/')
-      }
   });
-  
-});
+})
 
 
-app.post('/store3', (req, res) => {
-  connection.query(  
-    "INSERT INTO items (title, description) VALUES (?, ?)",
-    [[req.body.title],[req.body.description]], (err, data, fields) => {
-      if (err){throw err;}else{
-        connection.query(
-          "UPDATE items SET image=? Where title=?,description=?",
-          [[req.files.photo.name],[req.body.title,req],[body.description]], (err, data, fields) => {
-            if (err) throw err;
-            req.files.photo.mv('public/img/'+req.files.photo.name);
-            res.redirect('/')
-            
-        }); 
-      
-      }
-  });
-  
-});
-//----
+
+
+
+
+///-------------------
  app.post('/store', (req, res) => {
   connection.query(
     "INSERT INTO items (title, image) VALUES (?, ?)",
@@ -192,8 +199,6 @@ console.log(password);
 });
 
 app.post('/login', (req, res) => {
-  //[req.body.password]
-
   connection.query(
      "SELECT password FROM users WHERE name=?",
      [[req.body.name]], (err, data, fields) => {
@@ -216,29 +221,5 @@ app.post('/login', (req, res) => {
 
 
  //чтобы сделать два запроса добавь connection.querry в другом connection.querry
- 
- //создание формы
- app.get('/form', function (req, res) {
-  res.setHeader('content-type', 'text/html;charset=utf-8');
-  res.write('<form action="/upload2" method="POST" enctype="multipart/form-data" >');
-  res.write('<input type="file" name="photo">');
-  res.write('<input type="submit">');
-  res.write('</form>');
-  res.end();
-});
-
-app.post('/upload2', function(req, res) {
-  console.log(req.files.photo.name); // the uploaded file object
-  connection.query(
-    "INSERT INTO items (image) VALUES (?)",
-    [req.files.photo.name], (err, data, fields) => {
-      if (err) throw err;
-      req.files.photo.mv('public/img/'+req.files.photo.name);
-      res.redirect('/')
-  });
- 
-});
-
-
 
 // код брал здесь https://dmitrytinitilov.gitbooks.io/strange-javascript/content/express/file_uploading_on_express.html

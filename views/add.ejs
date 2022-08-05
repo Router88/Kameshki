@@ -2,7 +2,7 @@
 <script src="/js/uploadImg.js" defer></script>
 <%- include('particles/navigation.ejs') %>
 
-<form action="/store2" method="post" enctype="multipart/form-data">
+<form action="/upload" method="post" enctype="multipart/form-data">
 
     <div class="form-group">
         <label class="form-group__label" for="title">Название</label>
@@ -12,7 +12,7 @@
         <input class="form-group__input" type="text" id="description" name="title" placeholder="description" required>
         
         
-        <input type="file" name="photo" id="file-uploader" required>
+        <input type="file" name="image" id="file-uploader" required>
 
        <div id="image"class="img" name="image"> <!--этот блок выделяется чтобы пользователь видел размер отображения--></div>
      <label class="form-group__label" for="image">предпросмотр изображения</label>
