@@ -106,8 +106,6 @@ app.get('/add',isAuth, (req, res) => {
 app.get('/ac',isAuth, (req, res) => {
   res.render('account', {
     auth: req.session.auth,
-    message: 'User already registered.',
-    messageClass: 'alert-danger'
   });
 });
 
