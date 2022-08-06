@@ -6,9 +6,12 @@
     <h2 class="section__title">
         <%= item.title %>
     </h2>
+    <span class=""><%= item.description %></span>
     <img class="section__image" src="/img/<%= item.image %>">
 </div>
 
+
+<% if (auth==true){ %>
 <form action="/update" method="post">
     <div class="form-group">
         <label class="form-group__label" for="title">title</label>
@@ -31,5 +34,7 @@
     <input type="hidden" value="<%= item.id %>" name="id">
     <input class="form-button" type="submit" value="Удалить">
     </form>
-
+<% }else{ %>
+    <p>Авторизуйтесь, чтобы вносить изменения</p>
+    <% } %>
 <%- include('particles/footer.ejs') %>

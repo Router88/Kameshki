@@ -20,7 +20,7 @@ const connection = mysql.createConnection({
   host: "127.0.0.1",
   database: "rocks",
   user: "root",
-  password: "secret" //secret   //admin
+  password: "admin" //secret   //admin
 });
 
 connection.connect(function (err) { if (err) throw err; });
@@ -76,7 +76,10 @@ app.get('/items/:id', (req, res) => {
       })
   });
 });
-
+app.get('/logout', (req, res) => {
+  req.session.auth = false;
+  res.redirect('/')
+});
 app.get('/log', (req, res) => {
   res.render('login', {
     auth: req.session.auth
@@ -91,7 +94,7 @@ app.get('/usrAgr', (req, res) => {
   res.render('userAgreement', {
   });
 });
-app.get('/add', (req, res) => {
+app.get('/add',isAuth, (req, res) => {
  
   res.render('add', {
     auth: req.session.auth
@@ -99,11 +102,19 @@ app.get('/add', (req, res) => {
   })
 });
 
-app.get('/lock', isAuth, (req, res) => {
-  res.render('lock', {
-    auth: req.session.auth
+
+app.get('/ac',isAuth, (req, res) => {
+  res.render('account', {
+    auth: req.session.auth,
+    message: 'User already registered.',
+    messageClass: 'alert-danger'
   });
 });
+
+
+
+
+
 
 app.post('/delete', (req, res) => {
   console.log(req.body.id)
@@ -176,8 +187,9 @@ app.post('/register', (req, res) => {
   connection.query(
     "SELECT id FROM users WHERE name=?",
     [req.body.name], (err, data, fields) => {
-      if (err) throw err;
-      if(data.length > 0){
+      if (err) {throw err;}
+      else if(data.length > 0){
+
         console.log('Такое имя пользователя уже используется')
         res.redirect('/reg')
      }else{
@@ -186,14 +198,11 @@ console.log(password);
  connection.query(
     "INSERT INTO users (name, password) VALUES (?, ?)",
     [[req.body.name], [password]], (err, data, fields) => {
-      if (err) throw err;
-
+      if (err){ throw err;
+      }else{
       req.session.auth = true;
-
-      res.redirect('/')
+      res.redirect('/')}
   }); 
-
-
      }
   });
 });
