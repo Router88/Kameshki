@@ -106,7 +106,6 @@ app.get('/add',isAuth, (req, res) => {
 app.get('/ac',isAuth, (req, res) => {
   res.render('account', {
     auth: req.session.auth,
-    
   });
 });
 
@@ -210,4 +209,10 @@ app.post('/login', (req, res) => {
     }else{res.redirect('/log')}
     }//else
    }); 
+
  });
+
+
+ //чтобы сделать два запроса добавь connection.querry в другом connection.querry
+
+// код брал здесь https://dmitrytinitilov.gitbooks.io/strange-javascript/content/express/file_uploading_on_express.html
