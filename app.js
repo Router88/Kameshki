@@ -106,8 +106,7 @@ app.get('/add',isAuth, (req, res) => {
 app.get('/ac',isAuth, (req, res) => {
   res.render('account', {
     auth: req.session.auth,
-    message: 'User already registered.',
-    messageClass: 'alert-danger'
+    
   });
 });
 
@@ -127,13 +126,22 @@ app.post('/delete', (req, res) => {
   });
 });
 
-app.post('/update', (req, res) => {
+app.post('/update', upload.single("image"), (req, res) => {
+  const tempPath = req.file.path;
   connection.query(
-"UPDATE items SET title=?,image=? WHERE id=?",
-    [[req.body.title], [req.body.image], [req.body.id]], (err, data, fields) => {
+"UPDATE items SET title=?,discription,image=? WHERE id=?",
+    [[req.body.title], [req.body.description],[req.file.originalname], [req.body.id]], (err, data, fields) => {
       if (err) throw err;
-
-      res.redirect('/')
+      const targetPath = path.join(
+        __dirname,
+        "./public/img/" + req.file.originalname
+      );
+    
+      fs.rename(tempPath, targetPath, (err) => {
+        if (err) console.log(err);
+        
+        res.redirect('/');
+      });
   });
 });
 ///-------------------
