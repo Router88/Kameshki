@@ -8,11 +8,12 @@
     </h2>
     <span class=""><%= item.description %></span>
     <img class="section__image" src="/img/<%= item.image %>">
+    <a href="/">назад</a>
 </div>
 
 
 <% if (auth==true){ %>
-<form action="/update" method="post">
+<form action="/update" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label class="form-group__label" for="title">title</label>
         <input value="<%= item.title %>" class="form-group__input" type="text" id="title" name="title"
@@ -21,17 +22,21 @@
 
     <div class="form-group">
         <label class="form-group__label" for="description">description</label>
-        <input class="form-group__input" value="<%= item.description %>" type="text" id="description" name="title" placeholder="description">
+        <input class="form-group__input" value="<%= item.description %>" type="text" id="description" name="description" placeholder="description">
         
         
             <label class="form-group__label" for="image">image</label>
-            <input type="file" name="image" id="file-uploader">
+            <input type="file" name="image" id="file-uploader" required>
+            <div id="image"class="img" name="image"> <!--этот блок выделяется чтобы пользователь видел размер отображения--></div>
+            <label class="form-group__label" for="image">предпросмотр изображения</label>
     </div>
     <input type="hidden" value="<%= item.id %>" name="id">
+
     <input class="form-button" type="submit" value="Обновить">
 </form>
 <form action="/delete" method="post">
     <input type="hidden" value="<%= item.id %>" name="id">
+    <input type="hidden" value="./public/img/<%=item.image %>" name="image">
     <input class="form-button" type="submit" value="Удалить">
     </form>
 <% }else{ %>

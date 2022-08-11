@@ -111,45 +111,48 @@ app.get('/ac',isAuth, (req, res) => {
 });
 
 
-
-
-
-
 app.post('/delete', (req, res) => {
   console.log(req.body.id)
   connection.query(
 "DELETE from items WHERE id=?",
     [[req.body.id]], (err, data, fields) => {
-      if (err) throw err;
-
-      res.redirect('/')
+      if (err){ throw err;}
+      //удаление файла изображения
+      else if (req.body.image.lenght >0) {
+        fs.unlinkSync(req.body.image);
+      }
+      
+      
+      res.redirect('/');
   });
 });
 
 app.post('/update', upload.single("image"), (req, res) => {
   const tempPath = req.file.path;
   connection.query(
-"UPDATE items SET title=?,discription,image=? WHERE id=?",
+"UPDATE items SET title=?,description=?,image=? WHERE id=?",
     [[req.body.title], [req.body.description],[req.file.originalname], [req.body.id]], (err, data, fields) => {
-      if (err) throw err;
-      const targetPath = path.join(
-        __dirname,
-        "./public/img/" + req.file.originalname
-      );
-    
-      fs.rename(tempPath, targetPath, (err) => {
-        if (err) console.log(err);
-        
-        res.redirect('/');
-      });
+      if (err) {throw err;}
+
+        const targetPath = path.join(
+          __dirname,
+          "./public/img/" + req.file.originalname
+        );
+        fs.rename(tempPath, targetPath, (err) => {
+          if (err) console.log(err);
+        });
+
+      
+      res.redirect('/');
   });
 });
+
 ///-------------------
 app.post("/upload", upload.single("image"), (req, res) => {
   const tempPath = req.file.path;
   connection.query(
-    "INSERT INTO items (title, description, image) VALUES (?, ?)",
-    [[req.body.title], [req.body.image], [req.file.originalname]], (err, data, fields) => {
+    "INSERT INTO items (title, description, image) VALUES (?, ?,?)",
+    [[req.body.title], [req.body.description], [req.file.originalname]], (err, data, fields) => {
       if (err) throw err;
   });
   const targetPath = path.join(
@@ -163,33 +166,6 @@ app.post("/upload", upload.single("image"), (req, res) => {
     res.redirect('/');
   });
 });
-
-
-app.post('/store2', (req, res) => {
-  connection.query(
-    "INSERT INTO items (title, description, image) VALUES (?, ?)",
-    [[req.body.title], [req.body.image], [req.file.originalname]], (err, data, fields) => {
-      if (err) throw err;
-
-      res.redirect('/')
-  });
-})
-
-
-
-
-
-
-///-------------------
- app.post('/store', (req, res) => {
-  connection.query(
-    "INSERT INTO items (title, image) VALUES (?, ?)",
-    [[req.body.title], [req.body.image]], (err, data, fields) => {
-      if (err) throw err;
-
-      res.redirect('/')
-  });
-})
 
 app.post('/register', (req, res) => {
   connection.query(
@@ -235,8 +211,3 @@ app.post('/login', (req, res) => {
     }//else
    }); 
  });
-
-
- //чтобы сделать два запроса добавь connection.querry в другом connection.querry
-
-// код брал здесь https://dmitrytinitilov.gitbooks.io/strange-javascript/content/express/file_uploading_on_express.html

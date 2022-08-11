@@ -2,7 +2,7 @@
 let fileUploader = document.getElementById('file-uploader');
 const reader = new FileReader();
 const imageGrid = document.getElementById('image');
-let isUpload = false;
+
 fileUploader.addEventListener('change', (event) => {
   const files = event.target.files;
   const file = files[0];
@@ -12,17 +12,13 @@ fileUploader.addEventListener('change', (event) => {
     let img = document.createElement('img');
     img.classList.add("img");
     
-    if(isUpload==false){
+
     imageGrid.appendChild(img);
     img.src = event.target.result;
     img.alt = file.name;
     isUpload=true;
-  }else{
-    img.src = "";
-    img.alt = "";
-    imageGrid.removeChild(img);
-    isUpload=false;
-    }
+
+    
   });
 });
 //

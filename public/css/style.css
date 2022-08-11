@@ -137,6 +137,9 @@ body {
 }
 
 @media only screen and (max-width: 600px) {
+  body{
+    font-size: 20px;
+  }
   .section {
       grid-template-columns: 1fr;
   }
@@ -149,6 +152,9 @@ body {
     }
 }
 @media only screen and (max-width: 480px) {
+  body{
+    font-size: 18px;
+  }
   .section {
       grid-template-columns: 1fr;
   }
