@@ -1,19 +1,19 @@
 <!--<script src="/js/menu.js" defer></script>-->
 <div class="navigation">
-<a href="/">
+<a href="">
     <span class="logo">Kameshki</span>
 </a>
 
 <ul> 
-    <li><a href="/">Главная</a></li>
+    <li><a href="">Главная</a></li>
     <% if (auth) { %>
-        <li><a href="/add">Добавить</a></li>
-        <li><a href="/logout">Выйти из аккаунта</a></li>
-        <li><a href="/ac">Личный кабинет</a></li>
+        <li><a href="add">Добавить</a></li>
+        <li><a href="logout">Выйти из аккаунта</a></li>
+        <li><a href="ac">Личный кабинет</a></li>
         
     <% } else { %>
-        <li><a href="/log">Авторизация</a></li>
-        <li><a href="/reg">Регистрация</a></li>
+        <li><a href="log">Авторизация</a></li>
+        <li><a href="reg">Регистрация</a></li>
     <% } %>
     
 </ul>
