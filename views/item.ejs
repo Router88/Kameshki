@@ -1,5 +1,5 @@
 <%- include('particles/header.ejs') %>
-<script src="/js/uploadImg.js" defer></script>
+<script src="js/uploadImg.js" defer></script>
 <%- include('particles/navigation.ejs') %>
 
 <div class="section">
@@ -7,8 +7,8 @@
         <%= item.title %>
     </h2>
     <span class=""><%= item.description %></span>
-    <img class="section__image" src="/img/<%= item.image %>">
-    <a href="/">назад</a>
+    <img class="section__image" src="img/<%= item.image %>">
+    <a href="">назад</a>
 </div>
 
 
@@ -36,7 +36,7 @@
 </form>
 <form action="/delete" method="post">
     <input type="hidden" value="<%= item.id %>" name="id">
-    <input type="hidden" value="./public/img/<%=item.image %>" name="image">
+    <input type="hidden" value="public/img/<%=item.image %>" name="image">
     <input class="form-button" type="submit" value="Удалить">
     </form>
 <% }else{ %>
