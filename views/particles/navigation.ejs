@@ -7,13 +7,13 @@
 <ul> 
     <li><a href="">Главная</a></li>
     <% if (auth) { %>
-        <li><a href="add">Добавить</a></li>
-        <li><a href="logout">Выйти из аккаунта</a></li>
-        <li><a href="ac">Личный кабинет</a></li>
+        <li><a href="/add">Добавить</a></li>
+        <li><a href="/logout">Выйти из аккаунта</a></li>
+        <li><a href="/ac">Личный кабинет</a></li>
         
     <% } else { %>
-        <li><a href="log">Авторизация</a></li>
-        <li><a href="reg">Регистрация</a></li>
+        <li><a href="/log">Авторизация</a></li>
+        <li><a href="/reg">Регистрация</a></li>
     <% } %>
     
 </ul>

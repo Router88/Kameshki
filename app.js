@@ -57,7 +57,7 @@ app.listen(3000)
 /**
  * Маршруты
  */
-app.get('', (req, res) => {
+app.get('/', (req, res) => {
   connection.query("SELECT * FROM items", (err, data, fields) => {
     if (err) throw err;
 
@@ -68,7 +68,7 @@ app.get('', (req, res) => {
   });
 });
 
-app.get('items/:id', (req, res) => {
+app.get('/items/:id', (req, res) => {
   connection.query("SELECT * FROM items WHERE id=?", [req.params.id],
     (err, data, fields) => {
       if (err) throw err;
@@ -79,21 +79,21 @@ app.get('items/:id', (req, res) => {
       })
   });
 });
-app.get('logout', (req, res) => {
+app.get('/logout', (req, res) => {
   req.session.auth = false;
   res.redirect('')
 });
-app.get('log', (req, res) => {
+app.get('/log', (req, res) => {
   res.render('login', {
     auth: req.session.auth
   });
 });
-app.get('reg', (req, res) => {
+app.get('/reg', (req, res) => {
   res.render('register', {
     auth: req.session.auth
   });
 });
-app.get('usrAgr', (req, res) => {
+app.get('/usrAgr', (req, res) => {
   res.render('userAgreement', {
   });
 });
@@ -106,14 +106,14 @@ app.get('add',isAuth, (req, res) => {
 });
 
 
-app.get('ac',isAuth, (req, res) => {
+app.get('/ac',isAuth, (req, res) => {
   res.render('account', {
     auth: req.session.auth,
   });
 });
 
 
-app.post('delete', (req, res) => {
+app.post('/delete', (req, res) => {
   console.log(req.body.id)
   connection.query(
 "DELETE from items WHERE id=?",
@@ -125,11 +125,11 @@ app.post('delete', (req, res) => {
       }
       
       
-      res.redirect('');
+      res.redirect('/');
   });
 });
 
-app.post('update', upload.single("image"), (req, res) => {
+app.post('/update', upload.single("image"), (req, res) => {
   const tempPath = req.file.path;
   connection.query(
 "UPDATE items SET title=?,description=?,image=? WHERE id=?",
@@ -145,12 +145,12 @@ app.post('update', upload.single("image"), (req, res) => {
         });
 
       
-      res.redirect('');
+      res.redirect('/');
   });
 });
 
 ///-------------------
-app.post("upload", upload.single("image"), (req, res) => {
+app.post("/upload", upload.single("image"), (req, res) => {
   const tempPath = req.file.path;
   connection.query(
     "INSERT INTO items (title, description, image) VALUES (?, ?,?)",
@@ -165,11 +165,11 @@ app.post("upload", upload.single("image"), (req, res) => {
   fs.rename(tempPath, targetPath, (err) => {
     if (err) console.log(err);
     
-    res.redirect('');
+    res.redirect('/');
   });
 });
 
-app.post('register', (req, res) => {
+app.post('/register', (req, res) => {
   connection.query(
     "SELECT id FROM users WHERE name=?",
     [req.body.name], (err, data, fields) => {
@@ -177,7 +177,7 @@ app.post('register', (req, res) => {
       else if(data.length > 0){
 
         console.log('Такое имя пользователя уже используется')
-        res.redirect('reg')
+        res.redirect('/reg')
      }else{
       let password=bcrypt.hashSync(req.body.password, 10); 
 console.log(password);
@@ -187,13 +187,13 @@ console.log(password);
       if (err){ throw err;
       }else{
       req.session.auth = true;
-      res.redirect('')}
+      res.redirect('/')}
   }); 
      }
   });
 });
 
-app.post('login', (req, res) => {
+app.post('/login', (req, res) => {
   connection.query(
      "SELECT password FROM users WHERE name=?",
      [[req.body.name]], (err, data, fields) => {
@@ -204,12 +204,12 @@ app.post('login', (req, res) => {
       let compare=bcrypt.compareSync(req.body.password, data[0].password);
       if( compare == true){
         req.session.auth = true;
-        res.redirect('')
+        res.redirect('/')
       }else{
         req.session.auth = false;
-        res.redirect('log')
+        res.redirect('/log')
       }
-    }else{res.redirect('log')}
+    }else{res.redirect('/log')}
     }//else
    }); 
 
