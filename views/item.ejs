@@ -13,7 +13,7 @@
 
 
 <% if (auth==true){ %>
-<form action="/update" method="post" enctype="multipart/form-data">
+<form action="update" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label class="form-group__label" for="title">title</label>
         <input value="<%= item.title %>" class="form-group__input" type="text" id="title" name="title"
@@ -34,7 +34,7 @@
 
     <input class="form-button" type="submit" value="Обновить">
 </form>
-<form action="/delete" method="post">
+<form action="delete" method="post">
     <input type="hidden" value="<%= item.id %>" name="id">
     <input type="hidden" value="public/img/<%=item.image %>" name="image">
     <input class="form-button" type="submit" value="Удалить">
